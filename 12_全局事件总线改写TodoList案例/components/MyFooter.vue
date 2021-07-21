@@ -9,10 +9,9 @@
 </template>
 
 <script>
-import pubsub from 'pubsub-js'
 export default {
   name: "MyFooter",
-  props:['todos','isCheckedAll'],
+  props:['todos','isCheckedAll','sweepCompletedTodo'],
   computed:{
     totalTodos(){
       return this.todos.length
@@ -33,7 +32,7 @@ export default {
   },
   methods:{
     sweep(){
-      pubsub.publish('sweepCompletedTodo')
+      this.$emit('sweepCompletedTodo')
     }
   }
 };

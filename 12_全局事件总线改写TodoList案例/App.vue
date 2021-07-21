@@ -6,13 +6,13 @@
       <MyFooter
         :todos="todos"
         @isCheckedAll="isCheckedAll"
+        @sweepCompletedTodo="sweepCompletedTodo"
       />
     </div>
   </div>
 </template>
 
 <script>
-import pubsub from 'pubsub-js'
 import MyHeader from "./components/MyHeader.vue";
 import MyFooter from "./components/MyFooter.vue";
 import MyList from "./components/MyList.vue";
@@ -47,13 +47,6 @@ export default {
     sweepCompletedTodo() {
       this.todos = this.todos.filter((todo) => todo.done !== true);
     },
-
-    //编辑功能
-    updateTodo(id,title){
-      this.todos.forEach(element => {
-        if(element.id === id) element.title = title
-      });
-    }
   },
 
   //监视todos发生的变化，完成存储功能
@@ -68,17 +61,10 @@ export default {
   mounted(){
     this.$bus.$on('sender',this.sender)
     this.$bus.$on('removeTodo',this.removeTodo)
-    
-    //订阅消息
-   this.pubsubId = pubsub.subscribe('sweepCompletedTodo',this.sweepCompletedTodo)
-
-   //编辑功能
-   this.$bus.$on('updateTodo',this.updateTodo)
   },
   beforeDestroy(){
     this.$bus.$off('sender')
     this.$bus.$off('removeTodo')
-    pubsub.unsubscribe(pubsubId)
   }
 };
 </script>
@@ -107,12 +93,6 @@ body {
   color: #fff;
   background-color: #da4f49;
   border: 1px solid #bd362f;
-}
-.btn-edit{
-  color: #fff;
-  background-color: #3579d1;
-  border: 1px solid #3579d1;
-  margin-right:5px ;
 }
 
 .btn-danger:hover {

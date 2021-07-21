@@ -17,7 +17,7 @@ export default {
     add(){
       if(this.title !== ''){
         const todo = {id:nanoid(),title:this.title,done:false}
-        this.$emit('reciever',todo)
+        this.reciever(todo)
         this.title=''
       }
     }

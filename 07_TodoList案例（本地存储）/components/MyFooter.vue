@@ -9,10 +9,9 @@
 </template>
 
 <script>
-import pubsub from 'pubsub-js'
 export default {
   name: "MyFooter",
-  props:['todos','isCheckedAll'],
+  props:['todos','isCheckedAll','sweepCompletedTodo'],
   computed:{
     totalTodos(){
       return this.todos.length
@@ -26,14 +25,14 @@ export default {
       },
       //通过双向数据绑定实现此功能
       set(value){
-        this.$emit('isCheckedAll',value)
+        this.isCheckedAll(value)
       }
 
     }
   },
   methods:{
     sweep(){
-      pubsub.publish('sweepCompletedTodo')
+      this.sweepCompletedTodo()
     }
   }
 };
