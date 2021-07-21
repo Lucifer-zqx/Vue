@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <!-- 网页的字符集编码 -->
+    <meta charset="utf-8">
+    <!-- 针对IE浏览器进行的适配，要求以最高级别渲染 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 针对移动端进行的适配 -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- 网页的图标 -->
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <!-- 网页的标题 -->
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <!-- 不支持JavaScript脚本的浏览器运行时产生的话 -->
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <!-- vm实例对象接管的容器 -->
+    <div id="app"></div>
+  </body>
+</html>
