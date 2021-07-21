@@ -17,7 +17,9 @@ export default {
         this.sender(this.todoId)
     },
     deleteTodo(){
-      this.removeTodo(this.todoId)
+      if(confirm('确认删除吗？')){
+        this.removeTodo(this.todoId)
+      }
     }
   }
 };

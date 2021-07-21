@@ -15,9 +15,11 @@ export default {
   },
   methods:{
     add(){
-      const todo = {id:nanoid(),title:this.title,done:false}
-      this.reciever(todo)
-      this.title=''
+      if(this.title !== ''){
+        const todo = {id:nanoid(),title:this.title,done:false}
+        this.reciever(todo)
+        this.title=''
+      }
     }
   },
   props:['reciever']

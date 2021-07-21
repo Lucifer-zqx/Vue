@@ -3,10 +3,11 @@
     <div class="todo-wrap">
       <MyHeader :reciever="reciever" />
       <MyList :todos="todos" :sender="sender" :removeTodo="removeTodo" />
-      <MyFooter 
-      :todos="todos" 
-      :isCheckedAll="isCheckedAll"
-      :sweepCompletedTodo='sweepCompletedTodo' />
+      <MyFooter
+        :todos="todos"
+        :isCheckedAll="isCheckedAll"
+        :sweepCompletedTodo="sweepCompletedTodo"
+      />
     </div>
   </div>
 </template>
@@ -21,20 +22,16 @@ export default {
   components: { MyHeader, MyFooter, MyList },
   data() {
     return {
-      todos: [
-        { id: "001", title: "吃饭", done: false },
-        { id: "002", title: "睡觉", done: false },
-        { id: "003", title: "打豆豆", done: true },
-      ],
-    }
+      todos: JSON.parse(localStorage.getItem("todos")) || [],
+    };
   },
   methods: {
     reciever(val) {
-      this.todos.unshift(val)
+      this.todos.unshift(val);
     },
     sender(todoId) {
       const todo = this.todos.find((todo) => todo.id === todoId);
-      todo.done = !todo.done
+      todo.done = !todo.done;
     },
     removeTodo(id) {
       this.todos = this.todos.filter((t) => t.id !== id);
@@ -42,16 +39,26 @@ export default {
     //全选操作
     isCheckedAll(doneFlag) {
       this.todos = this.todos.map((todo) => {
-        todo.done = doneFlag
-        return todo
-      })
+        todo.done = doneFlag;
+        return todo;
+      });
     },
     //清除已完成任务
-    sweepCompletedTodo(){
-      this.todos = this.todos.filter(todo => todo.done !== true)
-    }
+    sweepCompletedTodo() {
+      this.todos = this.todos.filter((todo) => todo.done !== true);
+    },
   },
-}
+
+  //监视todos发生的变化，完成存储功能
+  watch: {
+    todos: {
+      deep: true,
+      handler(value) {
+        localStorage.setItem("todos", JSON.stringify(value));
+      },
+    },
+  },
+};
 </script>
 
 <style>
