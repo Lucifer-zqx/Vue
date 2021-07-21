@@ -2,12 +2,11 @@
   <div class="todo-container">
     <div class="todo-wrap">
       <MyHeader :reciever="reciever" />
-      <MyList 
+      <MyList :todos="todos" :sender="sender" :removeTodo="removeTodo" />
+      <MyFooter 
       :todos="todos" 
-      :sender='sender'
-      :removeTodo='removeTodo'
-       />
-      <MyFooter />
+      :isCheckedAll="isCheckedAll"
+      :sweepCompletedTodo='sweepCompletedTodo' />
     </div>
   </div>
 </template>
@@ -27,21 +26,32 @@ export default {
         { id: "002", title: "睡觉", done: false },
         { id: "003", title: "打豆豆", done: true },
       ],
-    };
+    }
   },
   methods: {
     reciever(val) {
-      this.todos.unshift(val);
+      this.todos.unshift(val)
     },
     sender(todoId) {
-     const todo = this.todos.find((todo) => todo.id === todoId);
-     todo.done = ! todo.done
+      const todo = this.todos.find((todo) => todo.id === todoId);
+      todo.done = !todo.done
     },
-    removeTodo(id){
-      this.todos=this.todos.filter( t => t.id !== id)
+    removeTodo(id) {
+      this.todos = this.todos.filter((t) => t.id !== id);
+    },
+    //全选操作
+    isCheckedAll(doneFlag) {
+      this.todos = this.todos.map((todo) => {
+        todo.done = doneFlag
+        return todo
+      })
+    },
+    //清除已完成任务
+    sweepCompletedTodo(){
+      this.todos = this.todos.filter(todo => todo.done !== true)
     }
   },
-};
+}
 </script>
 
 <style>

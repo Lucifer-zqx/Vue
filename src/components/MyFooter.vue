@@ -1,16 +1,40 @@
 <template>
-  <div class="todo-footer">
+  <div class="todo-footer" v-show="totalTodos">
     <label>
-      <input type="checkbox" />
+      <input type="checkbox" v-model="isAll" />
     </label>
-    <span> <span>已完成0</span> / 全部2 </span>
-    <button class="btn btn-danger">清除已完成任务</button>
+    <span> <span>已完成{{doneTodos}}</span> / 全部{{totalTodos}} </span>
+    <button class="btn btn-danger" @click="sweep"> 清除已完成任务</button>
   </div>
 </template>
 
 <script>
 export default {
   name: "MyFooter",
+  props:['todos','isCheckedAll','sweepCompletedTodo'],
+  computed:{
+    totalTodos(){
+      return this.todos.length
+    },
+    doneTodos(){
+      return this.todos.filter(todo => todo.done === true).length
+    },
+    isAll:{
+      get(){
+        return this.totalTodos === this.doneTodos && this.totalTodos !== 0
+      },
+      //通过双向数据绑定实现此功能
+      set(value){
+        this.isCheckedAll(value)
+      }
+
+    }
+  },
+  methods:{
+    sweep(){
+      this.sweepCompletedTodo()
+    }
+  }
 };
 </script>
 
